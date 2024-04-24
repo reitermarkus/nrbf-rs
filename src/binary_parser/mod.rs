@@ -62,6 +62,7 @@ macro_rules! alt_mut {
   ($input:expr => $($expr:expr),+ $(,)?) => {
     'alt: {
       $(
+        #[allow(clippy::redundant_closure_call)]
         match $expr($input) {
           Err(nom::Err::Error(_)) => (),
           res => break 'alt res,
