@@ -1,6 +1,6 @@
 //! 2.4.3 Record Definitions
 
-use nom::{bytes::complete::tag, combinator::value, error::ParseError, Compare, IResult, InputTake, Parser};
+use nom::{bytes::complete::tag, combinator::value, Compare, IResult, Input, OutputMode, PResult, Parser};
 
 use crate::error::{error_position, Error};
 
@@ -83,7 +83,8 @@ pub enum RecordType {
 
 impl RecordType {
   fn parse(self, input: &[u8]) -> IResult<&[u8], Self, Error<'_>> {
-    value(self, tag([self as u8]))(input)
+    value(self, tag([self as u8].as_slice()))
+      .parse(input)
       .map_err(|err| err.map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedRecordType(self))))
   }
 
@@ -113,12 +114,14 @@ impl RecordType {
   }
 }
 
-impl<I, E> Parser<I, Self, E> for RecordType
+impl<I> Parser<I> for RecordType
 where
-  I: InputTake + Compare<[u8; 1]>,
-  E: ParseError<I>,
+  I: Input + for<'a> Compare<&'a [u8]>,
 {
-  fn parse(&mut self, input: I) -> IResult<I, Self, E> {
-    value(*self, tag([*self as u8]))(input)
+  type Output = Self;
+  type Error = nom::error::Error<I>;
+
+  fn process<OM: OutputMode>(&mut self, input: I) -> PResult<OM, I, Self::Output, Self::Error> {
+    value(*self, tag([*self as u8].as_slice())).process::<OM>(input)
   }
 }

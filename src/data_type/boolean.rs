@@ -1,4 +1,4 @@
-use nom::{combinator::map_res, number::complete::u8, IResult};
+use nom::{combinator::map_res, number::complete::u8, IResult, Parser};
 
 use super::impl_primitive;
 use crate::{
@@ -19,10 +19,11 @@ impl Boolean {
         1 => true,
         _ => return Err(()),
       }))
-    })(input)
-    .map_err(into_failure)
+    })
+    .parse(input)
     .map_err(|err| {
-      err.map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitive(PrimitiveType::Boolean)))
+      into_failure(err)
+        .map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitive(PrimitiveType::Boolean)))
     })
   }
 }

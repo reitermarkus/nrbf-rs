@@ -1,4 +1,4 @@
-use nom::{combinator::cond, IResult};
+use nom::{combinator::cond, IResult, Parser};
 
 use crate::{
   error::Error,
@@ -20,10 +20,11 @@ impl<'i> BinaryMethodReturn<'i> {
 
     let (input, message_enum) = MessageFlags::parse(input)?;
     let (input, return_value) =
-      cond(message_enum.intersects(MessageFlags::RETURN_VALUE_INLINE), ValueWithCode::parse)(input)?;
+      cond(message_enum.intersects(MessageFlags::RETURN_VALUE_INLINE), ValueWithCode::parse).parse(input)?;
     let (input, call_context) =
-      cond(message_enum.intersects(MessageFlags::CONTEXT_INLINE), StringValueWithCode::parse)(input)?;
-    let (input, args) = cond(message_enum.intersects(MessageFlags::ARGS_INLINE), ArrayOfValueWithCode::parse)(input)?;
+      cond(message_enum.intersects(MessageFlags::CONTEXT_INLINE), StringValueWithCode::parse).parse(input)?;
+    let (input, args) =
+      cond(message_enum.intersects(MessageFlags::ARGS_INLINE), ArrayOfValueWithCode::parse).parse(input)?;
 
     Ok((input, Self { message_enum, return_value, call_context, args }))
   }

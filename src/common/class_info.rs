@@ -1,6 +1,6 @@
 use std::num::NonZeroU32;
 
-use nom::{multi::length_count, IResult};
+use nom::{multi::length_count, IResult, Parser};
 
 use crate::{
   combinator::{length, object_id},
@@ -20,7 +20,7 @@ impl<'i> ClassInfo<'i> {
   pub fn parse(input: &'i [u8]) -> IResult<&'i [u8], Self, Error<'i>> {
     let (input, object_id) = object_id(input)?;
     let (input, name) = LengthPrefixedString::parse(input)?;
-    let (input, member_names) = length_count(length, LengthPrefixedString::parse)(input)?;
+    let (input, member_names) = length_count(length, LengthPrefixedString::parse).parse(input)?;
 
     Ok((input, Self { object_id, name, member_names }))
   }

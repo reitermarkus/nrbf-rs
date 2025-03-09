@@ -1,4 +1,4 @@
-use nom::{combinator::map, number::complete::le_u16, IResult};
+use nom::{combinator::map, number::complete::le_u16, IResult, Parser};
 
 use super::impl_primitive;
 use crate::{
@@ -13,8 +13,9 @@ pub struct UInt16(pub u16);
 
 impl UInt16 {
   pub fn parse(input: &[u8]) -> IResult<&[u8], Self, Error<'_>> {
-    map(le_u16, Self)(input).map_err(into_failure).map_err(|err| {
-      err.map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitive(PrimitiveType::UInt16)))
+    map(le_u16, Self).parse(input).map_err(|err| {
+      into_failure(err)
+        .map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitive(PrimitiveType::UInt16)))
     })
   }
 }

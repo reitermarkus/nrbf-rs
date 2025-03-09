@@ -4,7 +4,7 @@ use nom::{
   bytes::complete::take,
   combinator::{map, map_res},
   sequence::{pair, preceded},
-  IResult,
+  IResult, Parser,
 };
 
 use crate::{
@@ -25,23 +25,23 @@ impl<'i> LengthPrefixedString<'i> {
       let mut len = 0;
 
       let (mut parse_next, mut len_part): (bool, u8);
-      (input, (parse_next, len_part)) = pair(bool, take(7usize))(input)?;
+      (input, (parse_next, len_part)) = pair(bool, take(7usize)).parse(input)?;
       len |= len_part as u32;
 
       if parse_next {
-        (input, (parse_next, len_part)) = pair(bool, take(7usize))(input)?;
+        (input, (parse_next, len_part)) = pair(bool, take(7usize)).parse(input)?;
         len |= (len_part as u32) << 7;
 
         if parse_next {
-          (input, (parse_next, len_part)) = pair(bool, take(7usize))(input)?;
+          (input, (parse_next, len_part)) = pair(bool, take(7usize)).parse(input)?;
           len |= (len_part as u32) << 14;
 
           if parse_next {
-            (input, (parse_next, len_part)) = pair(bool, take(7usize))(input)?;
+            (input, (parse_next, len_part)) = pair(bool, take(7usize)).parse(input)?;
             len |= (len_part as u32) << 21;
 
             if parse_next {
-              (input, len_part) = preceded(tag(0b00000, 5usize), take(3usize))(input)?;
+              (input, len_part) = preceded(tag(0b00000, 5usize), take(3usize)).parse(input)?;
               len |= (len_part as u32) << 28;
             }
           }
@@ -60,9 +60,8 @@ impl<'i> LengthPrefixedString<'i> {
 
   pub fn parse(input: &'i [u8]) -> IResult<&'i [u8], Self, Error<'i>> {
     Self::parse_len(input)
-      .and_then(|(input, len)| map(map_res(take(len), str::from_utf8), Self)(input))
-      .map_err(into_failure)
-      .map_err(|err| err.map(|err| error_position!(err.input, ExpectedPrimitive(PrimitiveType::String))))
+      .and_then(|(input, len)| map(map_res(take(len), str::from_utf8), Self).parse(input))
+      .map_err(|err| into_failure(err).map(|err| error_position!(err.input, ExpectedPrimitive(PrimitiveType::String))))
   }
 
   #[inline]

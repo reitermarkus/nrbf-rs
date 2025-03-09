@@ -1,8 +1,6 @@
 //! 2.1.2 Enumerations
 
-use nom::{
-  branch::alt, bytes::complete::tag, combinator::value, error::ParseError, Compare, IResult, InputTake, Parser,
-};
+use nom::{branch::alt, bytes::complete::tag, combinator::value, Compare, IResult, Input, OutputMode, PResult, Parser};
 
 use crate::{
   combinator::into_failure,
@@ -34,19 +32,23 @@ impl BinaryType {
       Self::ObjectArray,
       Self::StringArray,
       Self::PrimitiveArray,
-    ))(input)
-    .map_err(into_failure)
-    .map_err(|err| err.map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedBinaryType)))
+    ))
+    .parse(input)
+    .map_err(|err| {
+      into_failure(err).map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedBinaryType))
+    })
   }
 }
 
-impl<I, E> Parser<I, Self, E> for BinaryType
+impl<I> Parser<I> for BinaryType
 where
-  I: InputTake + Compare<[u8; 1]>,
-  E: ParseError<I>,
+  I: Input + for<'a> Compare<&'a [u8]>,
 {
-  fn parse(&mut self, input: I) -> IResult<I, Self, E> {
-    value(*self, tag([*self as u8]))(input)
+  type Output = Self;
+  type Error = nom::error::Error<I>;
+
+  fn process<OM: OutputMode>(&mut self, input: I) -> PResult<OM, I, Self::Output, Self::Error> {
+    value(*self, tag([*self as u8].as_slice())).process::<OM>(input)
   }
 }
 
@@ -93,9 +95,11 @@ impl PrimitiveType {
       Self::UInt64,
       Self::Null,
       Self::String,
-    ))(input)
-    .map_err(into_failure)
-    .map_err(|err| err.map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitiveType)))
+    ))
+    .parse(input)
+    .map_err(|err| {
+      into_failure(err).map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitiveType))
+    })
   }
 
   pub(crate) fn description(&self) -> &'static str {
@@ -121,13 +125,15 @@ impl PrimitiveType {
   }
 }
 
-impl<I, E> Parser<I, Self, E> for PrimitiveType
+impl<I> Parser<I> for PrimitiveType
 where
-  I: InputTake + Compare<[u8; 1]>,
-  E: ParseError<I>,
+  I: Input + for<'a> Compare<&'a [u8]>,
 {
-  fn parse(&mut self, input: I) -> IResult<I, Self, E> {
-    value(*self, tag([*self as u8]))(input)
+  type Output = Self;
+  type Error = nom::error::Error<I>;
+
+  fn process<OM: OutputMode>(&mut self, input: I) -> PResult<OM, I, Self::Output, Self::Error> {
+    value(*self, tag([*self as u8].as_slice())).process::<OM>(input)
   }
 }
 
@@ -152,18 +158,22 @@ impl BinaryArrayType {
       Self::SingleOffset,
       Self::JaggedOffset,
       Self::RectangularOffset,
-    ))(input)
-    .map_err(into_failure)
-    .map_err(|err| err.map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedBinaryArrayType)))
+    ))
+    .parse(input)
+    .map_err(|err| {
+      into_failure(err).map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedBinaryArrayType))
+    })
   }
 }
 
-impl<I, E> Parser<I, Self, E> for BinaryArrayType
+impl<I> Parser<I> for BinaryArrayType
 where
-  I: InputTake + Compare<[u8; 1]>,
-  E: ParseError<I>,
+  I: Input + for<'a> Compare<&'a [u8]>,
 {
-  fn parse(&mut self, input: I) -> IResult<I, Self, E> {
-    value(*self, tag([*self as u8]))(input)
+  type Output = Self;
+  type Error = nom::error::Error<I>;
+
+  fn process<OM: OutputMode>(&mut self, input: I) -> PResult<OM, I, Self::Output, Self::Error> {
+    value(*self, tag([*self as u8].as_slice())).process::<OM>(input)
   }
 }

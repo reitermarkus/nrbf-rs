@@ -1,6 +1,6 @@
 use std::num::NonZeroU32;
 
-use nom::{combinator::cond, multi::count, IResult};
+use nom::{combinator::cond, multi::count, IResult, Parser};
 
 use crate::{
   combinator::{length, object_id},
@@ -29,14 +29,15 @@ impl<'i> BinaryArray<'i> {
     let (input, binary_array_type_enum) = BinaryArrayType::parse(input)?;
     let (input, rank) = length(input)?;
 
-    let (input, lengths) = count(length, rank)(input)?;
+    let (input, lengths) = count(length, rank).parse(input)?;
     let (input, lower_bounds) = cond(
       matches!(
         binary_array_type_enum,
         BinaryArrayType::SingleOffset | BinaryArrayType::JaggedOffset | BinaryArrayType::RectangularOffset
       ),
       count(length, rank),
-    )(input)?;
+    )
+    .parse(input)?;
     let (input, type_enum) = BinaryType::parse(input)?;
     let (input, additional_type_info) = AdditionalTypeInfo::parse(input, type_enum)?;
 

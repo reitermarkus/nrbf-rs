@@ -1,4 +1,4 @@
-use nom::{combinator::map, IResult};
+use nom::{combinator::map, IResult, Parser};
 
 use crate::{
   combinator::into_failure,
@@ -13,9 +13,9 @@ pub struct DateTime(pub Int64);
 
 impl DateTime {
   pub fn parse(input: &[u8]) -> IResult<&[u8], Self, Error<'_>> {
-    map(Int64::parse, Self)(input)
-      .map_err(into_failure)
-      .map_err(|err| err.map(|err| error_position!(err.input, ExpectedPrimitive(PrimitiveType::DateTime))))
+    map(Int64::parse, Self).parse(input).map_err(|err| {
+      into_failure(err).map(|err| error_position!(err.input, ExpectedPrimitive(PrimitiveType::DateTime)))
+    })
   }
 }
 

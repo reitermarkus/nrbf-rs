@@ -1,15 +1,15 @@
 use std::num::NonZeroU32;
 
-use nom::{Err, IResult, ToUsize};
+use nom::{IResult, ToUsize};
 
 use crate::{
   data_type::Int32,
   error::{error_position, Error},
 };
 
-pub fn into_failure<E>(err: Err<E>) -> nom::Err<E> {
+pub fn into_failure<E>(err: nom::Err<E>) -> nom::Err<E> {
   match err {
-    Err::Error(e) => Err::Failure(e),
+    nom::Err::Error(e) => nom::Err::Failure(e),
     err => err,
   }
 }
