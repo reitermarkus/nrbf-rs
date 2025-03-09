@@ -1,10 +1,10 @@
-use nom::{combinator::map, IResult, Parser};
+use nom::{IResult, Parser, combinator::map};
 
 use crate::{
   combinator::into_failure,
   data_type::LengthPrefixedString,
   enumeration::PrimitiveType,
-  error::{error_position, Error},
+  error::{Error, error_position},
 };
 
 /// 2.2.2.2 `StringValueWithCode`

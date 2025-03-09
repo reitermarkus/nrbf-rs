@@ -5,7 +5,7 @@ use nom::IResult;
 use crate::{
   combinator::library_id,
   common::{ClassInfo, MemberTypeInfo},
-  error::{error_position, Error},
+  error::{Error, error_position},
   record::RecordType,
 };
 

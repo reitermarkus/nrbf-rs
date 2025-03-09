@@ -105,11 +105,7 @@ impl fmt::Display for ErrorInner {
 }
 
 macro_rules! error_position {
-  ($input:expr, $error_inner:ident) => {{
-    $crate::error::Error { input: $input, inner: $crate::error::ErrorInner::$error_inner }
-  }};
-  ($input:expr, $error_inner:ident ( $expr:expr )) => {{
-    $crate::error::Error { input: $input, inner: $crate::error::ErrorInner::$error_inner($expr) }
-  }};
+  ($input:expr, $error_inner:ident) => {{ $crate::error::Error { input: $input, inner: $crate::error::ErrorInner::$error_inner } }};
+  ($input:expr, $error_inner:ident ( $expr:expr )) => {{ $crate::error::Error { input: $input, inner: $crate::error::ErrorInner::$error_inner($expr) } }};
 }
 pub(crate) use error_position;

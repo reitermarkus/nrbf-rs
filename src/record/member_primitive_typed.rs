@@ -1,13 +1,14 @@
 use nom::IResult;
 
 use crate::{
+  Value,
   data_type::{
-    Boolean, Byte, Char, DateTime, Decimal, Double, Int16, Int32, Int64, Int8, Single, TimeSpan, UInt16, UInt32, UInt64,
+    Boolean, Byte, Char, DateTime, Decimal, Double, Int8, Int16, Int32, Int64, Single, TimeSpan, UInt16, UInt32, UInt64,
   },
   enumeration::PrimitiveType,
   error::Error,
   record::{MemberPrimitiveUnTyped, RecordType},
-  value, Value,
+  value,
 };
 
 /// 2.5.1 `MemberPrimitiveTyped`

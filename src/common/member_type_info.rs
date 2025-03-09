@@ -1,4 +1,4 @@
-use nom::{multi::count, IResult, Parser};
+use nom::{IResult, Parser, multi::count};
 
 use crate::{
   common::{AdditionalTypeInfo, ClassInfo},

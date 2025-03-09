@@ -1,9 +1,9 @@
 use bitflags::bitflags;
-use nom::{combinator::map, IResult, Parser};
+use nom::{IResult, Parser, combinator::map};
 
 use crate::{
   data_type::Int32,
-  error::{error_position, Error},
+  error::{Error, error_position},
 };
 
 bitflags! {

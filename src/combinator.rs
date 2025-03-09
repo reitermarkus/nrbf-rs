@@ -4,7 +4,7 @@ use nom::{IResult, ToUsize};
 
 use crate::{
   data_type::Int32,
-  error::{error_position, Error},
+  error::{Error, error_position},
 };
 
 pub fn into_failure<E>(err: nom::Err<E>) -> nom::Err<E> {

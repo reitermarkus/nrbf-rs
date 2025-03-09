@@ -1,4 +1,4 @@
-use nom::{combinator::cond, IResult, Parser};
+use nom::{IResult, Parser, combinator::cond};
 
 use crate::{
   error::Error,

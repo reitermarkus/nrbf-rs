@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use nrbf::{value::Object, MethodCall, RemotingMessage, Value};
+use nrbf::{MethodCall, RemotingMessage, Value, value::Object};
 
 #[test]
 fn method_call() {
@@ -34,8 +34,7 @@ fn method_call() {
 
   let output = RemotingMessage::MethodCall(MethodCall {
     method_name: "SendAddress",
-    type_name:
-      "DOJRemotingMetadata.MyServer, DOJRemotingMetadata, Version=1.0.2622.31326, Culture=neutral, PublicKeyToken=null",
+    type_name: "DOJRemotingMetadata.MyServer, DOJRemotingMetadata, Version=1.0.2622.31326, Culture=neutral, PublicKeyToken=null",
     call_context: None,
     args: Some(vec![Value::Object(Object {
       class: "DOJRemotingMetadata.Address",

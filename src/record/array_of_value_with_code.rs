@@ -1,6 +1,6 @@
-use nom::{combinator::map, multi::length_count, IResult, Parser};
+use nom::{IResult, Parser, combinator::map, multi::length_count};
 
-use crate::{combinator::length, error::Error, record::ValueWithCode, Value};
+use crate::{Value, combinator::length, error::Error, record::ValueWithCode};
 
 /// 2.2.2.3 `ArrayOfValueWithCode`
 #[derive(Debug, Clone, PartialEq)]

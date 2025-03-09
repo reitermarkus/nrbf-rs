@@ -1,10 +1,10 @@
-use nom::{combinator::map_res, number::complete::u8, IResult, Parser};
+use nom::{IResult, Parser, combinator::map_res, number::complete::u8};
 
 use super::impl_primitive;
 use crate::{
   combinator::into_failure,
   enumeration::PrimitiveType,
-  error::{error_position, Error},
+  error::{Error, error_position},
 };
 
 /// 2.1.1 `BOOLEAN`

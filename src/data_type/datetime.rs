@@ -1,10 +1,10 @@
-use nom::{combinator::map, IResult, Parser};
+use nom::{IResult, Parser, combinator::map};
 
 use crate::{
   combinator::into_failure,
   data_type::Int64,
   enumeration::PrimitiveType,
-  error::{error_position, Error},
+  error::{Error, error_position},
 };
 
 /// 2.1.1.5 `DateTime`

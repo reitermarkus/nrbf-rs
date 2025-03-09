@@ -2,8 +2,8 @@ use std::collections::HashMap;
 
 use const_str::concat_bytes;
 use nrbf::{
-  value::{Object, Value},
   RemotingMessage,
+  value::{Object, Value},
 };
 
 #[rustfmt::skip]

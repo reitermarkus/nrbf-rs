@@ -5,7 +5,7 @@ use nom::IResult;
 use crate::{
   data_type::LengthPrefixedString,
   enumeration::PrimitiveType,
-  error::{error_position, Error},
+  error::{Error, error_position},
 };
 
 /// 2.1.1.7 `Decimal`

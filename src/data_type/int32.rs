@@ -1,12 +1,12 @@
 use std::num::TryFromIntError;
 
-use nom::{combinator::map, number::complete::le_i32, IResult, Parser};
+use nom::{IResult, Parser, combinator::map, number::complete::le_i32};
 
 use super::impl_primitive;
 use crate::{
   combinator::into_failure,
   enumeration::PrimitiveType,
-  error::{error_position, Error},
+  error::{Error, error_position},
 };
 
 /// 2.1.1 `INT32`

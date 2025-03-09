@@ -2,7 +2,7 @@ use nom::{IResult, ToUsize};
 
 use crate::{
   data_type::Int32,
-  error::{error_position, Error},
+  error::{Error, error_position},
   record::RecordType,
 };
 

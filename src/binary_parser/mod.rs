@@ -4,17 +4,18 @@ use std::{
 };
 
 use nom::{
+  IResult, Parser,
   branch::alt,
   combinator::{map, opt, verify},
   multi::count,
-  IResult, Parser,
 };
 
 use crate::{
+  MethodCall, MethodReturn, RemotingMessage, Value,
   common::{AdditionalTypeInfo, MemberTypeInfo},
   data_type::LengthPrefixedString,
   enumeration::BinaryType,
-  error::{error_position, Error, ErrorInner},
+  error::{Error, ErrorInner, error_position},
   record::{
     ArraySingleObject, ArraySinglePrimitive, ArraySingleString, BinaryArray, BinaryLibrary, BinaryMethodCall,
     BinaryMethodReturn, BinaryObjectString, ClassWithId, ClassWithMembers, ClassWithMembersAndTypes,
@@ -23,7 +24,6 @@ use crate::{
     SystemClassWithMembersAndTypes,
   },
   value::Object,
-  MethodCall, MethodReturn, RemotingMessage, Value,
 };
 
 #[derive(Debug, Clone)]

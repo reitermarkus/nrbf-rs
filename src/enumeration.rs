@@ -1,10 +1,10 @@
 //! 2.1.2 Enumerations
 
-use nom::{branch::alt, bytes::complete::tag, combinator::value, Compare, IResult, Input, OutputMode, PResult, Parser};
+use nom::{Compare, IResult, Input, OutputMode, PResult, Parser, branch::alt, bytes::complete::tag, combinator::value};
 
 use crate::{
   combinator::into_failure,
-  error::{error_position, Error},
+  error::{Error, error_position},
 };
 
 /// 2.1.2.2 `BinaryTypeEnumeration`

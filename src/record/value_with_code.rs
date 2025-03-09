@@ -1,13 +1,14 @@
-use nom::{combinator::map, IResult, Parser};
+use nom::{IResult, Parser, combinator::map};
 
 use crate::{
+  Value,
   data_type::{
-    Boolean, Byte, Char, DateTime, Decimal, Double, Int16, Int32, Int64, Int8, LengthPrefixedString, Single, TimeSpan,
+    Boolean, Byte, Char, DateTime, Decimal, Double, Int8, Int16, Int32, Int64, LengthPrefixedString, Single, TimeSpan,
     UInt16, UInt32, UInt64,
   },
   enumeration::PrimitiveType,
   error::Error,
-  value, Value,
+  value,
 };
 
 /// 2.2.2.1 `ValueWithCode`

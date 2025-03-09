@@ -1,16 +1,17 @@
 use nom::{
-  combinator::{fail, map},
   IResult, Parser,
+  combinator::{fail, map},
 };
 
 use crate::{
+  Value,
   combinator::into_failure,
   data_type::{
-    Boolean, Byte, Char, DateTime, Decimal, Double, Int16, Int32, Int64, Int8, Single, TimeSpan, UInt16, UInt32, UInt64,
+    Boolean, Byte, Char, DateTime, Decimal, Double, Int8, Int16, Int32, Int64, Single, TimeSpan, UInt16, UInt32, UInt64,
   },
   enumeration::PrimitiveType,
   error::Error,
-  value, Value,
+  value,
 };
 
 /// 2.5.2 `MemberPrimitiveUnTyped`

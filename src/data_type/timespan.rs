@@ -1,9 +1,9 @@
-use nom::{combinator::map, number::complete::le_i64, IResult, Parser};
+use nom::{IResult, Parser, combinator::map, number::complete::le_i64};
 
 use crate::{
   combinator::into_failure,
   enumeration::PrimitiveType,
-  error::{error_position, Error},
+  error::{Error, error_position},
 };
 
 /// 2.1.1.4 `TimeSpan`

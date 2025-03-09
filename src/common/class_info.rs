@@ -1,6 +1,6 @@
 use std::num::NonZeroU32;
 
-use nom::{multi::length_count, IResult, Parser};
+use nom::{IResult, Parser, multi::length_count};
 
 use crate::{
   combinator::{length, object_id},

@@ -1,15 +1,15 @@
 use nom::{
+  IResult, Parser,
   branch::alt,
   combinator::{map, map_opt},
   number::complete::{le_u16, le_u24, le_u32, u8},
-  IResult, Parser,
 };
 
 use super::impl_primitive;
 use crate::{
   combinator::into_failure,
   enumeration::PrimitiveType,
-  error::{error_position, Error},
+  error::{Error, error_position},
 };
 
 /// 2.1.1.1 `Char`

@@ -4,7 +4,7 @@ use nom::IResult;
 
 use crate::{
   combinator::{self, object_id},
-  error::{error_position, Error},
+  error::{Error, error_position},
   record::RecordType,
 };
 

@@ -5,8 +5,9 @@ use std::{fmt, iter};
 
 #[cfg(feature = "serde")]
 use serde::{
-  de::{self, value::Error, Expected, IntoDeserializer, Visitor},
-  forward_to_deserialize_any, Deserializer,
+  Deserializer,
+  de::{self, Expected, IntoDeserializer, Visitor, value::Error},
+  forward_to_deserialize_any,
 };
 
 mod date_time;
@@ -218,11 +219,7 @@ impl<'de> Deserializer<'de> for ValueDeserializer<'de, '_> {
   where
     V: Visitor<'de>,
   {
-    if matches!(self.object, Value::Null) {
-      visitor.visit_none()
-    } else {
-      visitor.visit_some(self)
-    }
+    if matches!(self.object, Value::Null) { visitor.visit_none() } else { visitor.visit_some(self) }
   }
 
   fn deserialize_struct<V>(

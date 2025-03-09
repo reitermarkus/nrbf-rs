@@ -5,7 +5,7 @@ use std::fmt;
 #[cfg(feature = "serde")]
 use serde::{
   de::Expected,
-  de::{self, value::Error, Visitor},
+  de::{self, Visitor, value::Error},
   forward_to_deserialize_any,
 };
 
@@ -13,7 +13,7 @@ use super::Value;
 #[cfg(feature = "serde")]
 use super::{ArrayDeserializer, ValueDeserializer};
 #[cfg(feature = "serde")]
-use crate::data_type::{Boolean, Byte, Char, Double, Int16, Int32, Int64, Int8, Single, UInt16, UInt32, UInt64};
+use crate::data_type::{Boolean, Byte, Char, Double, Int8, Int16, Int32, Int64, Single, UInt16, UInt32, UInt64};
 
 /// An NRBF object.
 #[derive(Debug, Clone, PartialEq)]
@@ -40,7 +40,7 @@ impl<'de, 'o> ObjectDeserializer<'de, 'o> {
 }
 
 #[cfg(feature = "serde")]
-use serde::de::{value::BorrowedStrDeserializer, IntoDeserializer};
+use serde::de::{IntoDeserializer, value::BorrowedStrDeserializer};
 
 #[cfg(feature = "serde")]
 struct StrDeserializer<'i>(&'i str);
@@ -66,8 +66,8 @@ impl<'de, 'o> de::Deserializer<'de> for ObjectDeserializer<'de, 'o> {
     V: de::Visitor<'de>,
   {
     use serde::{
-      de::{value::MapDeserializer, Error},
       Deserialize,
+      de::{Error, value::MapDeserializer},
     };
 
     let Object { class, library, members } = self.object;

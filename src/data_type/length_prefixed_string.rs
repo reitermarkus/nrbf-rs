@@ -1,16 +1,16 @@
 use std::str;
 
 use nom::{
+  IResult, Parser,
   bytes::complete::take,
   combinator::{map, map_res},
   sequence::{pair, preceded},
-  IResult, Parser,
 };
 
 use crate::{
   combinator::into_failure,
   enumeration::PrimitiveType,
-  error::{error_position, Error},
+  error::{Error, error_position},
 };
 
 /// 2.1.1.6 `LengthPrefixedString`

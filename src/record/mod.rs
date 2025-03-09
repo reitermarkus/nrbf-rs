@@ -1,8 +1,8 @@
 //! 2.4.3 Record Definitions
 
-use nom::{bytes::complete::tag, combinator::value, Compare, IResult, Input, OutputMode, PResult, Parser};
+use nom::{Compare, IResult, Input, OutputMode, PResult, Parser, bytes::complete::tag, combinator::value};
 
-use crate::error::{error_position, Error};
+use crate::error::{Error, error_position};
 
 mod serialization_header;
 pub use serialization_header::SerializationHeader;
