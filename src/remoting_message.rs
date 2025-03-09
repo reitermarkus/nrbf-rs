@@ -72,7 +72,7 @@ pub enum RemotingMessage<'i> {
 
 impl<'i> RemotingMessage<'i> {
   /// Parse a [`RemotingMessage`] from bytes.
-  pub fn parse(input: &'i [u8]) -> Result<Self, Error> {
+  pub fn parse(input: &'i [u8]) -> Result<Self, Error<'i>> {
     let parser = BinaryParser::default();
     parser.deserialize(input)
   }

@@ -22,7 +22,7 @@ pub struct BinaryArray<'i> {
 }
 
 impl<'i> BinaryArray<'i> {
-  pub fn parse(input: &'i [u8]) -> IResult<&'i [u8], Self, Error<'_>> {
+  pub fn parse(input: &'i [u8]) -> IResult<&'i [u8], Self, Error<'i>> {
     let (input, _) = RecordType::BinaryArray.parse(input)?;
 
     let (input, object_id) = object_id(input)?;

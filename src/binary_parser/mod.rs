@@ -621,7 +621,7 @@ impl<'i> BinaryParser<'i> {
   }
 
   /// Deserializes a [`RemotingMessage`] from bytes.
-  pub fn deserialize(mut self, input: &'i [u8]) -> Result<RemotingMessage<'i>, Error> {
+  pub fn deserialize(mut self, input: &'i [u8]) -> Result<RemotingMessage<'i>, Error<'i>> {
     self.parse_remoting_message(input).map(|(_, remoting_message)| remoting_message).map_err(|err| match err {
       nom::Err::Incomplete(_) => Error { input, inner: ErrorInner::Eof },
       nom::Err::Error(err) | nom::Err::Failure(err) => err,

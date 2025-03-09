@@ -14,7 +14,7 @@ pub struct BinaryLibrary<'i> {
 }
 
 impl<'i> BinaryLibrary<'i> {
-  pub fn parse(input: &'i [u8]) -> IResult<&'i [u8], Self, Error<'_>> {
+  pub fn parse(input: &'i [u8]) -> IResult<&'i [u8], Self, Error<'i>> {
     let (input, _) = RecordType::BinaryLibrary.parse(input)?;
 
     let (input, library_id) = library_id(input)?;
