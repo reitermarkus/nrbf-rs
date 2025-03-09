@@ -13,7 +13,7 @@ keywords = ["dotnet", "remoting"]
 
 [dependencies]
 bitflags = "2.5.0"
-nom = "7.1.3"
+nom = "8.0.0"
 rust_decimal = { version = "1.34.3", default-features = false }
 serde = { version = "1.0.197", optional = true, features = ["derive"] }
 
