@@ -1,4 +1,4 @@
-use nom::{combinator::cond, IResult};
+use nom::{combinator::cond, IResult, Parser};
 
 use crate::{
   error::Error,
@@ -23,8 +23,9 @@ impl<'i> BinaryMethodCall<'i> {
     let (input, method_name) = StringValueWithCode::parse(input)?;
     let (input, type_name) = StringValueWithCode::parse(input)?;
     let (input, call_context) =
-      cond(message_enum.intersects(MessageFlags::CONTEXT_INLINE), StringValueWithCode::parse)(input)?;
-    let (input, args) = cond(message_enum.intersects(MessageFlags::ARGS_INLINE), ArrayOfValueWithCode::parse)(input)?;
+      cond(message_enum.intersects(MessageFlags::CONTEXT_INLINE), StringValueWithCode::parse).parse(input)?;
+    let (input, args) =
+      cond(message_enum.intersects(MessageFlags::ARGS_INLINE), ArrayOfValueWithCode::parse).parse(input)?;
 
     Ok((input, Self { message_enum, method_name, type_name, call_context, args }))
   }

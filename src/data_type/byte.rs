@@ -1,4 +1,4 @@
-use nom::{combinator::map, number::complete::u8, IResult};
+use nom::{combinator::map, number::complete::u8, IResult, Parser};
 
 use super::impl_primitive;
 use crate::{
@@ -13,8 +13,9 @@ pub struct Byte(pub u8);
 
 impl Byte {
   pub fn parse(input: &[u8]) -> IResult<&[u8], Self, Error<'_>> {
-    map(u8, Self)(input).map_err(into_failure).map_err(|err| {
-      err.map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitive(PrimitiveType::Byte)))
+    map(u8, Self).parse(input).map_err(|err| {
+      into_failure(err)
+        .map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitive(PrimitiveType::Byte)))
     })
   }
 }

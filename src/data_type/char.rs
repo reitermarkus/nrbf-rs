@@ -2,7 +2,7 @@ use nom::{
   branch::alt,
   combinator::{map, map_opt},
   number::complete::{le_u16, le_u24, le_u32, u8},
-  IResult,
+  IResult, Parser,
 };
 
 use super::impl_primitive;
@@ -26,10 +26,11 @@ impl Char {
         map_opt(le_u32, char::from_u32),
       )),
       Self,
-    )(input)
-    .map_err(into_failure)
+    )
+    .parse(input)
     .map_err(|err| {
-      err.map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitive(PrimitiveType::Char)))
+      into_failure(err)
+        .map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitive(PrimitiveType::Char)))
     })
   }
 }

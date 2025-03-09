@@ -1,5 +1,5 @@
 use bitflags::bitflags;
-use nom::{combinator::map, IResult};
+use nom::{combinator::map, IResult, Parser};
 
 use crate::{
   data_type::Int32,
@@ -70,7 +70,8 @@ impl MessageFlags {
   pub fn parse(input: &[u8]) -> IResult<&[u8], Self, Error<'_>> {
     let err_input = input;
 
-    let (input, flags) = map(Int32::parse, |n| Self::from_bits_retain(n.0))(input)
+    let (input, flags) = map(Int32::parse, |n| Self::from_bits_retain(n.0))
+      .parse(input)
       .map_err(|err| err.map(|err| error_position!(err.input, ExpectedMessageFlags)))?;
 
     let args_flags =

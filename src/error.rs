@@ -31,6 +31,12 @@ impl<'i> nom::error::ParseError<&'i [u8]> for Error<'i> {
   }
 }
 
+impl<'i> From<nom::error::Error<&'i [u8]>> for Error<'i> {
+  fn from(err: nom::error::Error<&'i [u8]>) -> Self {
+    nom::error::ParseError::from_error_kind(err.input, err.code)
+  }
+}
+
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) enum ErrorInner {
   Eof,

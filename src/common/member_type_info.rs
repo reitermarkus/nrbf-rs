@@ -1,4 +1,4 @@
-use nom::{multi::count, IResult};
+use nom::{multi::count, IResult, Parser};
 
 use crate::{
   common::{AdditionalTypeInfo, ClassInfo},
@@ -15,7 +15,7 @@ pub struct MemberTypeInfo<'i> {
 
 impl<'i> MemberTypeInfo<'i> {
   pub fn parse(input: &'i [u8], class_info: &ClassInfo<'_>) -> IResult<&'i [u8], Self, Error<'i>> {
-    let (mut input, binary_type_enums) = count(BinaryType::parse, class_info.member_names.len())(input)?;
+    let (mut input, binary_type_enums) = count(BinaryType::parse, class_info.member_names.len()).parse(input)?;
 
     let mut additional_infos = vec![];
     for &binary_type_enum in binary_type_enums.iter() {

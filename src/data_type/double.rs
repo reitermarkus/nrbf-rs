@@ -1,4 +1,4 @@
-use nom::{combinator::map, number::complete::le_f64, IResult};
+use nom::{combinator::map, number::complete::le_f64, IResult, Parser};
 
 use super::impl_primitive;
 use crate::{
@@ -13,8 +13,9 @@ pub struct Double(pub f64);
 
 impl Double {
   pub fn parse(input: &[u8]) -> IResult<&[u8], Self, Error<'_>> {
-    map(le_f64, Self)(input).map_err(into_failure).map_err(|err| {
-      err.map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitive(PrimitiveType::Double)))
+    map(le_f64, Self).parse(input).map_err(|err| {
+      into_failure(err)
+        .map(|err: nom::error::Error<&[u8]>| error_position!(err.input, ExpectedPrimitive(PrimitiveType::Double)))
     })
   }
 }
