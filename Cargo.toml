@@ -21,4 +21,4 @@ serde = { version = "1.0.197", optional = true, features = ["derive"] }
 serde = ["dep:serde", "rust_decimal/serde"]
 
 [dev-dependencies]
-const-str = "0.5.7"
+const-str = "0.6.0"
