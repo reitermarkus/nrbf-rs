@@ -1,6 +1,6 @@
 [package]
 name = "nrbf"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2024"
 authors = ["Markus Reiter <me@reitermark.us>"]
 license = "MIT OR Apache-2.0"
@@ -10,6 +10,9 @@ documentation = "https://docs.rs/nrbf"
 repository = "https://github.com/reitermarkus/nrbf-rs"
 homepage = "https://github.com/reitermarkus/nrbf-rs"
 keywords = ["dotnet", "remoting"]
+
+[package.metadata.docs.rs]
+features = ["serde"]
 
 [dependencies]
 bitflags = "2.5.0"
