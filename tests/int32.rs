@@ -21,6 +21,24 @@ const INPUT: &[u8] = concat_bytes!(
   11
 );
 
+#[rustfmt::skip]
+const INPUT_2: &[u8] = concat_bytes!(
+  0,
+    b"\x01\x00\x00\x00",
+    b"\xFF\xFF\xFF\xFF",
+    b"\x01\x00\x00\x00",
+    b"\x00\x00\x00\x00",
+  4,
+    b"\x01\x00\x00\x00",
+    12, "System.Int32",
+    b"\x01\x00\x00\x00",
+    7, "m_value",
+    0,
+    8,
+    b"\x0C\x00\x00\x00",
+  11,
+);
+
 #[test]
 fn int32() {
   let output = RemotingMessage::Value(Value::Object(Object {
@@ -30,6 +48,17 @@ fn int32() {
   }));
 
   assert_eq!(RemotingMessage::parse(INPUT), Ok(output));
+}
+
+#[test]
+fn int32_starts_with_binary_library_record_type() {
+  let output = RemotingMessage::Value(Value::Object(Object {
+    class: "System.Int32",
+    library: None,
+    members: HashMap::from_iter([("m_value", Value::Int32(12))]),
+  }));
+
+  assert_eq!(RemotingMessage::parse(INPUT_2), Ok(output));
 }
 
 #[cfg(feature = "serde")]
